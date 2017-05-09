@@ -74,6 +74,7 @@ int AdjacencyMatrix(FILE* fp_input) {
 	return 1;
 }
 
+/* Public interface for displaying the adjacency or shortest path matrices */
 void AdjacencyMatrix_display(Matrix_te mType) {
 	switch(mType) {
 	case AdjacencyMatrix_ADJ:
@@ -85,6 +86,7 @@ void AdjacencyMatrix_display(Matrix_te mType) {
 	}
 }
 
+/* Writes the matrix to the stdout */
 static void display(float* matrix) {
 	size_t i, j;
 
@@ -107,6 +109,7 @@ static void display(float* matrix) {
 	}
 }
 
+/* Frees allocated memory */
 void AdjacencyMatrix_destructor() {
 	if(adjMatrix)
 		free(adjMatrix);
@@ -116,6 +119,7 @@ void AdjacencyMatrix_destructor() {
 		free(shortestPathMatrix);
 }
 
+/* Creates the shortest path matrix */
 int AdjacencyMatrix_createShortestPath() {
 	if(!adjMatrix) {
 		fprintf(stderr, "AdjacencyMatrix_createShortestPath() : "
@@ -137,6 +141,7 @@ int AdjacencyMatrix_createShortestPath() {
 	return 1;
 }
 
+
 static float vector_op(float* v1, float* v2, size_t n) {
 	float ret_val = FLT_MAX;
 
@@ -157,14 +162,13 @@ static char nextHop(float* spmRow, size_t row, size_t n) {
 		if(i == row)
 			continue;
 
-		float tmp1 = spmRow[i];
-		float tmp2 = vector_op(spmRow, adjMatrix + i * n, n);
-		if(tmp2)
-			spmRow[i] = tmp1 && tmp1 < tmp2 ? tmp1 : tmp2;
+		float initVal = spmRow[i];
+		float tmp = vector_op(spmRow, adjMatrix + i * n, n);
+		if(tmp && initVal)
+			spmRow[i] = initVal < tmp ? initVal : tmp;
 		else
-			spmRow[i] = tmp1;
-		ret_val = ret_val || (tmp1 != spmRow[i]);
-printf("tmp: %f, spmElem: %f, ret_val: %d\n", tmp1, spmRow[i], (int)ret_val);
+			spmRow[i] = initVal ? initVal : tmp;
+		ret_val = ret_val || (initVal != spmRow[i]);
 	}
 
 	return ret_val;
@@ -173,11 +177,8 @@ printf("tmp: %f, spmElem: %f, ret_val: %d\n", tmp1, spmRow[i], (int)ret_val);
 static void calculateSPM() {
 	size_t i;
 	for(i = 0; i < nVertices; i++) {
-printf("Calculating SPM row %zu\n", i);
-size_t iteration = 0;
 		char hasChanged = 0;
 		do {
-printf("Iteration: %zu\n", iteration++);
 			hasChanged =
 				nextHop(shortestPathMatrix + i * nVertices,
 											i, nVertices);

@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	/* Display AdjacencyMatrix */
-//	AdjacencyMatrix_display(AdjacencyMatrix_ADJ);
+	AdjacencyMatrix_display(AdjacencyMatrix_ADJ);
 
 	/* Generate shortest path information */
 	AdjacencyMatrix_createShortestPath();
