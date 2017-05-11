@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <float.h>
 
@@ -25,7 +26,11 @@ int AdjacencyMatrix(FILE* fp_input) {
 	}
 
 	//Get number of vertices from input file
-	fscanf(fp_input, " %zu ", &nVertices);
+	if(fscanf(fp_input, " %zu ", &nVertices) == 0) {
+		fprintf(stderr, "AdjacencyMatrix(FILE* fp_input) : invalid number "
+			"of vertices.\n");
+		return 0;
+	}
 
 	//Allocate space for adjacency matrix and vertice array
 	adjMatrix = calloc(nVertices * nVertices, sizeof(float));
@@ -49,7 +54,7 @@ int AdjacencyMatrix(FILE* fp_input) {
 	for(lineCounter = 0; lineCounter < nVertices; lineCounter++) {
 		int error;
 
-		error = fscanf(fp_input, " %c ", &vertices[lineCounter].label);
+		error = fscanf(fp_input, " %u ", &vertices[lineCounter].label);
 		if(!error) {
 			fprintf(stderr, "AdjacencyMatrix(FILE* fp_input) : "
 				"Error reading vertex label.\n");
@@ -90,7 +95,7 @@ void AdjacencyMatrix_display(Matrix_te mType) {
 static void display(float* matrix) {
 	size_t i, j;
 
-	if(!vertices && matrix) {
+	if(!(vertices && matrix)) {
 		fprintf(stderr, "AdjacencyMatrix_display() : "
 			"Matrix not initialized.\n");
 		return;
@@ -98,11 +103,11 @@ static void display(float* matrix) {
 
 	printf(" ");
 	for(i = 0; i <nVertices; i++)
-		printf("\t%c", vertices[i].label);
+		printf("\t%u", vertices[i].label);
 	printf("\n");
 
 	for(i = 0; i < nVertices; i++) {
-		printf("%c\t", vertices[i].label);
+		printf("%u\t", vertices[i].label);
 		for(j = 0; j < nVertices; j++)
 			printf("%.1f\t", matrix[i * nVertices + j]);
 		printf("\n");
@@ -183,5 +188,24 @@ static void calculateSPM() {
 				nextHop(shortestPathMatrix + i * nVertices,
 											i, nVertices);
 		} while(hasChanged);
+	}
+}
+
+void AdjacencyMatrix_writeToFile(FILE* out, float* matrix, size_t n) {
+	size_t i, j;
+
+	if(!(n && matrix)) {
+		fprintf(stderr, "AdjacencyMatrix_writeToFile() : "
+			"Matrix not initialized.\n");
+		return;
+	}
+
+	fprintf(out, "%zu\n", n);
+
+	for(i = 0; i < n; i++) {
+		fprintf(out, "%zu", i + 1);
+		for(j = 0; j < n; j++)
+			fprintf(out, "\t%.1f", matrix[i * n + j]);
+		fprintf(out, "\n");
 	}
 }

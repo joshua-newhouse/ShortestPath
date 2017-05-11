@@ -1,10 +1,10 @@
-#include <stdlib.h>
+#include <stdio.h>
 
 #ifndef _ADJ_MTRX_
 #define _ADJ_MTRX_
 
 struct Vertex {
-	char label;
+	unsigned label;
 	unsigned maxHop;
 } typedef Vertex_ts;
 
@@ -17,5 +17,6 @@ extern int AdjacencyMatrix(FILE*);
 extern void AdjacencyMatrix_display(Matrix_te);
 extern void AdjacencyMatrix_destructor();
 extern int AdjacencyMatrix_createShortestPath();
+extern void AdjacencyMatrix_writeToFile(FILE*, float*, size_t);
 
 #endif
