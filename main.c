@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "AdjacencyMatrix.h"
 
@@ -19,19 +20,27 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
+	/* Close input file */
+	fclose(fp_input);
+
 	/* Display AdjacencyMatrix */
 	AdjacencyMatrix_display(AdjacencyMatrix_ADJ);
+
+	clock_t timeBegin = clock();
 
 	/* Generate shortest path information */
 	AdjacencyMatrix_createShortestPath();
 
+	clock_t timeEnd = clock();
+
 	/* Display AdjacencyMatrix */
 	AdjacencyMatrix_display(AdjacencyMatrix_SHP);
+
+	printf("Elapsed: %lf seconds\n",
+				(double)(timeEnd - timeBegin) / (double)CLOCKS_PER_SEC);
 
 	/* Free AdjacencyMatrix resources */
 	AdjacencyMatrix_destructor();
 
-	/* Close input file */
-	fclose(fp_input);
 	return 0;
 }
