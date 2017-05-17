@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 	fclose(fp_input);
 
 	/* Display AdjacencyMatrix */
-	AdjacencyMatrix_display(AdjacencyMatrix_ADJ);
+//	AdjacencyMatrix_display(AdjacencyMatrix_ADJ);
 
 	time_t timeBegin;
 	time(&timeBegin);
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 	time(&timeEnd);
 
 	/* Display AdjacencyMatrix */
-	AdjacencyMatrix_display(AdjacencyMatrix_SHP);
+//	AdjacencyMatrix_display(AdjacencyMatrix_SHP);
 
 	printf("Elapsed: %lf seconds\n", difftime(timeEnd, timeBegin));
 

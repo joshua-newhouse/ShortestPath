@@ -157,7 +157,6 @@ int AdjacencyMatrix_createShortestPath() {
 	return 1;
 }
 
-
 static float vector_op(float* v1, float* v2, size_t n) {
 	float ret_val = FLT_MAX;
 

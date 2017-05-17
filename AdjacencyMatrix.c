@@ -142,6 +142,7 @@ int AdjacencyMatrix_createShortestPath() {
 
 	memcpy(shortestPathMatrix, adjMatrix,
 						sizeof(float) * nVertices * nVertices);
+
 	calculateSPM();
 	return 1;
 }

@@ -1,5 +1,5 @@
 CC = gcc
-FLAGS = -Wall -g
+FLAGS = -Wall -g -O3
 PROG = ShortestPath
 OBJ = main.o AdjacencyMatrix.o
 OBJTHRD = main.o AdjacencyMatrixThreaded.o
