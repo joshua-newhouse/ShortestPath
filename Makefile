@@ -23,7 +23,7 @@ AdjacencyMatrixThreaded.o : AdjacencyMatrixThreaded.c AdjacencyMatrix.h
 	$(CC) $(FLAGS) -c AdjacencyMatrixThreaded.c -lpthread
 
 clean :
-	rm -f $(PROG) $(OBJ)
+	rm -f $(PROG) $(OBJ) $(OBJTHRD)
 
 cleanGen :
 	rm -f generator AdjacencyMatrix.o

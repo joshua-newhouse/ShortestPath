@@ -26,18 +26,19 @@ int main(int argc, char* argv[]) {
 	/* Display AdjacencyMatrix */
 	AdjacencyMatrix_display(AdjacencyMatrix_ADJ);
 
-	clock_t timeBegin = clock();
+	time_t timeBegin;
+	time(&timeBegin);
 
 	/* Generate shortest path information */
 	AdjacencyMatrix_createShortestPath();
 
-	clock_t timeEnd = clock();
+	time_t timeEnd;
+	time(&timeEnd);
 
 	/* Display AdjacencyMatrix */
 	AdjacencyMatrix_display(AdjacencyMatrix_SHP);
 
-	printf("Elapsed: %lf seconds\n",
-				(double)(timeEnd - timeBegin) / (double)CLOCKS_PER_SEC);
+	printf("Elapsed: %lf seconds\n", difftime(timeEnd, timeBegin));
 
 	/* Free AdjacencyMatrix resources */
 	AdjacencyMatrix_destructor();
